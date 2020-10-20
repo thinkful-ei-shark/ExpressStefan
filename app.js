@@ -1,11 +1,14 @@
 require('dotenv').config()
 const express = require('express');
 const morgan = require('morgan');
+const cors = require('cors')
 const app = express();
+const helmet = require('helmet')
 app.use(morgan('dev'));
 
 const data = require('./movieList')
-
+app.use(cors())
+app.use(helmet())
 app.use(function validate(req,res,next){
     const apiToken = process.env.API_TOKEN
     const authToken = req.get('Authorization')
@@ -41,10 +44,6 @@ app.get('/movie', (req, res) => {
         )
     }
     
-   
-
-
-
     res.json(newData)
 })
 
